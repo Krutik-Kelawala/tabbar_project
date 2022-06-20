@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:tabbar_project/main.dart';
 
 class streambuilderpage extends StatefulWidget {
@@ -11,30 +12,13 @@ class streambuilderpage extends StatefulWidget {
 }
 
 class _streambuilderpageState extends State<streambuilderpage> {
-  Response? response;
-  var dio = Dio();
-  mydata? view;
-  var data;
-  StreamController<String> mm = StreamController<String>();
+  final apicalling providerr = apicalling();
 
   @override
   void initState() {
     super.initState();
 
-    myviewdata();
-  }
-
-  myviewdata() async {
-    response =
-        await dio.get('https://dummy.restapiexample.com/api/v1/employees');
-    print(response.toString());
-
-    print("data==${response.toString()}");
-
-    data = jsonDecode(response.toString());
-    setState(() {
-      view = mydata.fromJson(data);
-    });
+    providerr.myviewdata();
   }
 
   @override
@@ -45,91 +29,70 @@ class _streambuilderpageState extends State<streambuilderpage> {
     double thenavigator = MediaQuery.of(context).padding.bottom;
     double theappbar = kToolbarHeight;
     double the_bodyheight = theheight - theststuabar - theappbar - thenavigator;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Stream Builder"),
-        centerTitle: true,
-      ),
-      body: WillPopScope(
-        onWillPop: backpagee,
-        child: StreamBuilder(
-          stream: mm.stream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: the_bodyheight * 0.09,
-                    ),
-                    CircularProgressIndicator(
-                      backgroundColor: Colors.yellow,
-                    ),
-                    SizedBox(
-                      height: the_bodyheight * 0.05,
-                    ),
-                    Text(
-                      "Please Wait....",
-                      style: TextStyle(fontSize: the_bodyheight * 0.025),
+    // apicalling providerrr = Provider.of(context);
+    return WillPopScope(
+      onWillPop: backpagee,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Provider through apicalling"),
+          centerTitle: true,
+        ),
+        body: ChangeNotifierProvider<apicalling>(
+          create: (context) => providerr,
+          child: Consumer<apicalling>(
+            builder: (context, providerr, child) {
+              return providerr.loading
+                  ? Scaffold(
+                      body: SafeArea(
+                          child: ListView.builder(
+                        itemCount: providerr.view!.data!.length,
+                        itemBuilder: (context, index) {
+                          print("lenth === ${providerr.view!.data!.length}");
+                          return Container(
+                            margin: EdgeInsets.all(the_bodyheight * 0.01),
+                            decoration:
+                                BoxDecoration(border: Border.all(width: 1)),
+                            padding: EdgeInsets.all(the_bodyheight * 0.01),
+                            height: the_bodyheight * 0.15,
+                            width: double.infinity,
+                            child: Consumer<apicalling>(
+                                builder: (context, providerr, child) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "ID : ${providerr.view!.data![index].id}",
+                                          style: TextStyle(
+                                              fontSize: the_bodyheight * 0.02),
+                                        ),
+                                        Text(
+                                          "Emplyee Name : ${providerr.view!.data![index].employeeName}",
+                                          style: TextStyle(
+                                              fontSize: the_bodyheight * 0.02),
+                                        ),
+                                        Text(
+                                          "Emplyee Salary : ${providerr.view!.data![index].employeeSalary}",
+                                          style: TextStyle(
+                                              fontSize: the_bodyheight * 0.02),
+                                        ),
+                                        Text(
+                                          "Emplyee Age : ${providerr.view!.data![index].employeeAge}",
+                                          style: TextStyle(
+                                              fontSize: the_bodyheight * 0.02),
+                                        ),
+                                      ],
+                                    )),
+                          );
+                        },
+                      )),
                     )
-                  ],
-                ),
-              );
-            }
-
-            return ListView.builder(
-              itemCount: view!.data!.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(the_bodyheight * 002),
-                  child: Column(
-                    children: [
-                      // Text("Status : ${view!.status}"),
-                      Text("ID : ${view!.data![index].id}"),
-                      Text(
-                          "Employee Name : ${view!.data![index].employeeName}"),
-                      Text(
-                          "Emplyee Salary : ${view!.data![index].employeeSalary}"),
-                      Text("Emplyee Age : ${view!.data![index].employeeAge}")
-                    ],
-                  ),
-                );
-              },
-            );
-
-            // else if (snapshot.connectionState == ConnectionState.done ||
-            //     snapshot.connectionState == ConnectionState.active) {
-            //   if (snapshot.hasError) {
-            //     return Text("Error");
-            //   } else if (snapshot.hasData) {
-            //     return ListView.builder(
-            //       itemCount: view!.data!.length,
-            //       itemBuilder: (context, index) {
-            //         return Container(
-            //           padding: EdgeInsets.all(the_bodyheight * 002),
-            //           child: Column(
-            //             children: [
-            //               // Text("Status : ${view!.status}"),
-            //               Text("ID : ${view!.data![index].id}"),
-            //               Text(
-            //                   "Employee Name : ${view!.data![index].employeeName}"),
-            //               Text(
-            //                   "Emplyee Salary : ${view!.data![index].employeeSalary}"),
-            //               Text(
-            //                   "Emplyee Age : ${view!.data![index].employeeAge}")
-            //             ],
-            //           ),
-            //         );
-            //       },
-            //     );
-            //   } else {
-            //     return Text("Empty Data");
-            //   }
-            // } else {
-            //   return Text("Status : ${snapshot.connectionState}");
-            // }
-          },
+                  : Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.yellow,
+                      ),
+                    );
+            },
+          ),
         ),
       ),
     );
@@ -142,6 +105,44 @@ class _streambuilderpageState extends State<streambuilderpage> {
       },
     ));
     return Future.value(true);
+  }
+}
+
+class apicalling extends ChangeNotifier {
+  Response? response;
+  var dio = Dio();
+  mydata? view;
+  var getdata;
+  bool loading = false;
+
+  myviewdata() async {
+    // response =
+    //     await dio.get('https://dummy.restapiexample.com/api/v1/employees');
+    // getdata = jsonDecode(response.toString());
+    // view = mydata.fromJson(getdata);
+    // loading = true;
+    // notifyListeners();
+    // print("Data=== ${response.toString()}");
+
+    var url = Uri.parse('https://dummy.restapiexample.com/api/v1/employees');
+    var response = await http.get(url);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    getdata = jsonDecode(response.body);
+    view = mydata.fromJson(getdata);
+    loading = true;
+    notifyListeners();
+    print("Data=== ${response.body}");
+
+    /*if (response.statusCode == 200) {
+      getdata = jsonDecode(response.body);
+      view = mydata.fromJson(getdata);
+      loading = true;
+      notifyListeners();
+      print("Data=== ${response.body}");
+    } else {
+      print("Something Wrong ");
+    }*/
   }
 }
 

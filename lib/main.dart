@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tabbar_project/getxpage.dart';
 import 'package:tabbar_project/providerdemo.dart';
 import 'package:tabbar_project/providermethod2.dart';
+import 'package:tabbar_project/shayariofflinedbpage.dart';
 import 'package:tabbar_project/streambuilderwork.dart';
 
 void main() {
@@ -36,12 +38,12 @@ class _firstpageState extends State<firstpage> {
                     builder: (context) => streambuilderpage(),
                   )),
               leading: Icon(Icons.add_circle),
-              title: Text("Stream Builder page"),
+              title: Text("Apicall through provider"),
             )
           ],
         )),
         appBar: AppBar(
-          title: Text("Tabbar"),
+          title: Text("Tabbar"), leading: Icon(Icons.adb),
           // centerTitle: true,
           bottom: TabBar(tabs: [
             Tab(
@@ -49,7 +51,7 @@ class _firstpageState extends State<firstpage> {
               text: "Chats",
             ),
             Tab(
-              icon: Icon(Icons.camera_alt_outlined),
+              icon: Icon(Icons.add_a_photo_rounded),
               text: "Camera",
             ),
             Tab(
@@ -93,10 +95,36 @@ class _firstpageState extends State<firstpage> {
 
                     await [
                       Permission.camera,
+                      Permission.storage,
+                      Permission.location,
                     ].request();
                   }
                 },
-                icon: Icon(Icons.photo_camera_front_outlined))
+                icon: Icon(Icons.add_a_photo)),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return Getxmethodpg();
+                    },
+                  ));
+                },
+                child: Text("GetX Method page")),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return ShayariDBpg();
+                    },
+                  ));
+                },
+                child: Text("Shayari DB"))
           ]),
         ),
         bottomNavigationBar: BottomNavigationBar(
