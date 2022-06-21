@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tabbar_project/futurebuilderpg.dart';
 import 'package:tabbar_project/getxpage.dart';
 import 'package:tabbar_project/providerdemo.dart';
 import 'package:tabbar_project/providermethod2.dart';
@@ -124,7 +125,16 @@ class _firstpageState extends State<firstpage> {
                     },
                   ));
                 },
-                child: Text("Shayari DB"))
+                child: Text("Shayari DB")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return Futurebuildpage();
+                    },
+                  ));
+                },
+                child: Text("Future Builder"))
           ]),
         ),
         bottomNavigationBar: BottomNavigationBar(
