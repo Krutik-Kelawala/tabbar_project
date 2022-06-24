@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tabbar_project/API%20data%20SHOW%20in%20SQFLITE%20DB/Apiofflinedbpage.dart';
 import 'package:tabbar_project/futurebuilderpg.dart';
 import 'package:tabbar_project/getxpage.dart';
 import 'package:tabbar_project/providerdemo.dart';
 import 'package:tabbar_project/providermethod2.dart';
-import 'package:tabbar_project/shayariofflinedbpage.dart';
+import 'package:tabbar_project/Shayari%20Offline%20DB%20file/shayariofflinedbpage.dart';
 import 'package:tabbar_project/streambuilderwork.dart';
 
 void main() {
@@ -126,6 +127,9 @@ class _firstpageState extends State<firstpage> {
                   ));
                 },
                 child: Text("Shayari DB")),
+            SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(context, MaterialPageRoute(
@@ -134,7 +138,19 @@ class _firstpageState extends State<firstpage> {
                     },
                   ));
                 },
-                child: Text("Future Builder"))
+                child: Text("Future Builder")),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return OfflineDB_page();
+                    },
+                  ));
+                },
+                child: Text("Online DB show in SQFLITE DB"))
           ]),
         ),
         bottomNavigationBar: BottomNavigationBar(

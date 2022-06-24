@@ -1,14 +1,7 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tabbar_project/Databaseclasspage.dart';
-import 'package:tabbar_project/Detailshayaripage.dart';
-import 'package:tabbar_project/main.dart';
+import 'package:tabbar_project/Shayari%20Offline%20DB%20file/Databaseclasspage.dart';
+import 'package:tabbar_project/Shayari%20Offline%20DB%20file/Detailshayaripage.dart';
 
 class ShayariDBpg extends StatefulWidget {
   @override
@@ -66,7 +59,7 @@ class _ShayariDBpgState extends State<ShayariDBpg> {
                   onTap: () {
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) {
-                        return detailshayari(viewdatalist,index);
+                        return detailshayari(viewdatalist, index);
                       },
                     ));
                   },
