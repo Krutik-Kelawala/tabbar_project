@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tabbar_project/API%20data%20SHOW%20in%20SQFLITE%20DB/Apiofflinedbpage.dart';
+import 'package:tabbar_project/Stackwidgetpg.dart';
 import 'package:tabbar_project/futurebuilderpg.dart';
 import 'package:tabbar_project/getxpage.dart';
 import 'package:tabbar_project/providerdemo.dart';
@@ -10,7 +11,7 @@ import 'package:tabbar_project/streambuilderwork.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: firstpage(),
+    home: Stackwidget(),
   ));
 }
 
